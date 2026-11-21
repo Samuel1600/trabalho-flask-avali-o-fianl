@@ -1,0 +1,102 @@
+
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="fw-bold">Painel Financeiro</h1>
+  <p class="text-muted">Ferramentas para cálculos financeiros.</p>
+{% endblock %}
+
+{% block content %}
+
+<div class="row g-4">
+
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-body p-4">
+
+        <h4 class="card-title fw-bold mb-3">Calculadora de IRPF</h4>
+        <p class="text-muted">Estime o desconto mensal de Imposto de Renda.</p>
+
+        <form method="post">
+          <input type="hidden" name="tipo" value="irpf">
+
+          <label for="salario_irpf" class="form-label">Salário bruto (R$)</label>
+          <input
+            type="number"
+            class="form-control mb-3"
+            name="salario"
+            id="salario_irpf"
+            min="0.01"
+            step="0.01"
+            required
+          >
+
+          <button type="submit" class="btn btn-primary w-100">
+            Calcular IRPF
+          </button>
+        </form>
+
+        {% if irpf is not none %}
+          <div class="alert alert-success mt-3 mb-0">
+            Desconto estimado: <strong>R$ {{ "%.2f"|format(irpf) }}</strong>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-body p-4">
+
+        <h4 class="card-title fw-bold mb-3">13º salário proporcional</h4>
+        <p class="text-muted">Calcule o valor proporcional aos meses trabalhados.</p>
+
+        <form method="post">
+          <input type="hidden" name="tipo" value="decimo">
+
+          <label for="salario_decimo" class="form-label">Salário base (R$)</label>
+          <input
+            type="number"
+            class="form-control mb-3"
+            name="salario"
+            id="salario_decimo"
+            min="0.01"
+            step="0.01"
+            required
+          >
+
+          <label for="meses" class="form-label">Meses trabalhados</label>
+          <input
+            type="number"
+            class="form-control mb-3"
+            name="meses"
+            id="meses"
+            min="0"
+            max="12"
+            required
+          >
+
+          <button type="submit" class="btn btn-primary w-100">
+            Calcular 13º
+          </button>
+        </form>
+
+        {% if decimo_terceiro is not none %}
+          <div class="alert alert-success mt-3 mb-0">
+            13º proporcional: <strong>R$ {{ "%.2f"|format(decimo_terceiro) }}</strong>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% if erro %}
+  <div class="alert alert-danger mt-4">{{ erro }}</div>
+{% endif %}
+
+{% endblock %}

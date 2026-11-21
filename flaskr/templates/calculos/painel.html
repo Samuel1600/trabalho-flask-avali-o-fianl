@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Painel de Cálculos{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+  <h2>Calculadora de IRPF</h2>
+
+  <form method="post">
+    <label for="salario">Salário bruto (R$)</label>
+    <input
+      type="number"
+      name="salario"
+      id="salario"
+      step="0.01"
+      min="0.01"
+      required
+    >
+
+    <label for="meses">Meses trabalhados (0 a 12)</label>
+    <input
+      type="number"
+      name="meses"
+      id="meses"
+      min="0"
+      max="12"
+      required
+    >
+
+    <button type="submit">Calcular</button>
+  </form>
+
+  {% if erro %}
+    <p>{{ erro }}</p>
+  {% endif %}
+
+  {% if irpf is not none %}
+    <h3>Resultados</h3>
+
+    <p>Desconto estimado de IRPF: R$ {{ "%.2f"|format(irpf) }}</p>
+
+    <p>13º salário proporcional: R$ {{ "%.2f"|format(decimo_terceiro) }}</p>
+  {% endif %}
+
+{% endblock %}
